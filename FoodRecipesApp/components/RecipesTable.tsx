@@ -1,11 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import {Recipe, fetchRecipes} from '../mealdb-api';
 import {Button, DataTable} from 'react-native-paper';
+import ModalPopUp from './ModalPopUp';
 
 export default function RecipesTable() {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [page, setPage] = useState<number>(1);
   const [itemsPerPage] = useState<number>(5);
+  const [selectedCellText, setSelectedCellText] = useState<string>('');
+  const [selectedCellTitle, setSelectedCellTitle] = useState<string>('');
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchRecipeData = async () => {
@@ -24,17 +28,27 @@ export default function RecipesTable() {
   );
   const endPage = Math.min(startPage + maxPages - 1, totalPages);
 
-  const handleNextPage = () => {
+  function handleNextPage() {
     setPage(prevPage => prevPage + 1);
-  };
+  }
 
-  const handlePrevPage = () => {
+  function handlePrevPage() {
     setPage(prevPage => Math.max(prevPage - 1, 1));
-  };
+  }
 
-  const handlePageClick = (pageNumber: number) => {
+  function handlePageClick(pageNumber: number) {
     setPage(pageNumber);
-  };
+  }
+
+  function handleCellClick(text: string, title: string) {
+    setSelectedCellText(text);
+    setSelectedCellTitle(title);
+    setIsModalVisible(true);
+  }
+
+  function handleModalClose() {
+    setIsModalVisible(false);
+  }
 
   const startIndex = (page - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -53,10 +67,23 @@ export default function RecipesTable() {
 
         {paginatedRecipes.map(recipe => (
           <DataTable.Row key={recipe.idMeal}>
-            <DataTable.Cell>{recipe.strMeal}</DataTable.Cell>
+            <DataTable.Cell
+              onPress={() => handleCellClick(recipe.strMeal, 'Name')}>
+              {recipe.strMeal}
+            </DataTable.Cell>
             <DataTable.Cell>{recipe.strArea}</DataTable.Cell>
-            <DataTable.Cell>{recipe.strInstructions}</DataTable.Cell>
-            <DataTable.Cell>{recipe.strIngredients.join(', ')}</DataTable.Cell>
+            <DataTable.Cell
+              onPress={() =>
+                handleCellClick(recipe.strInstructions, 'Instructions')
+              }>
+              {recipe.strInstructions}
+            </DataTable.Cell>
+            <DataTable.Cell
+              onPress={() =>
+                handleCellClick(recipe.strIngredients.join(', '), 'Ingredients')
+              }>
+              {recipe.strIngredients.join(', ')}
+            </DataTable.Cell>
           </DataTable.Row>
         ))}
       </DataTable>
@@ -76,6 +103,12 @@ export default function RecipesTable() {
       <Button onPress={handleNextPage} disabled={page === totalPages}>
         Next
       </Button>
+      <ModalPopUp
+        visible={isModalVisible}
+        onClose={handleModalClose}
+        text={selectedCellText}
+        title={selectedCellTitle}
+      />
     </>
   );
 }
