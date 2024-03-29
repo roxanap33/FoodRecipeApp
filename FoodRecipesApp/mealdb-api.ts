@@ -13,7 +13,7 @@ export const fetchRecipes = async (): Promise<Recipe[]> => {
       'https://www.themealdb.com/api/json/v1/1/search.php?s=',
     );
     const meals = response.data.meals || [];
-    const recipes = meals.map((meal: any) => {
+    const recipes: Recipe[] = meals.map((meal: any) => {
       const ingredients = [];
       for (let i = 1; i <= 20; i++) {
         const ingredient = meal['strIngredient' + i];
