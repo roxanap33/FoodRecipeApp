@@ -6,7 +6,7 @@ export default function RecipesScreen() {
   console.log('RECIPES');
   return (
     <View>
-      <Text>Recipes</Text>
+      <RecipesTable />
     </View>
   );
 }
