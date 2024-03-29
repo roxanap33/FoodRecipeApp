@@ -14,11 +14,13 @@ export default function AppNavigator() {
           name="Recipes"
           component={RecipesScreen}
           options={{title: 'Recipes'}}
+          initialParams={{recipes: []}}
         />
         <Stack.Screen
           name="Chart"
           component={ChartScreen}
           options={{title: 'Recipe Chart'}}
+          initialParams={{recipes: []}}
         />
       </Stack.Navigator>
     </NavigationContainer>
