@@ -4,8 +4,11 @@ import {Button, DataTable} from 'react-native-paper';
 import ModalPopUp from './ModalPopUp';
 import {StyleSheet, Text} from 'react-native';
 
-export default function RecipesTable() {
-  const [recipes, setRecipes] = useState<Recipe[]>([]);
+interface TableProp {
+  recipes: Recipe[];
+}
+
+export default function RecipesTable({recipes}: TableProp) {
   const [page, setPage] = useState<number>(0);
   const [selectedCellText, setSelectedCellText] = useState<string>('');
   const [selectedCellTitle, setSelectedCellTitle] = useState<string>('');
@@ -13,15 +16,6 @@ export default function RecipesTable() {
 
   const itemsPerPage = 5;
   const startIndex = page * itemsPerPage;
-
-  useEffect(() => {
-    const fetchRecipeData = async () => {
-      const data = await fetchRecipes();
-      setRecipes(data);
-    };
-
-    fetchRecipeData();
-  }, []);
 
   const endIndex = Math.min(startIndex + itemsPerPage, recipes.length);
   const paginatedRecipes = recipes.slice(startIndex, endIndex);
