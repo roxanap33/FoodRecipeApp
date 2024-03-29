@@ -1,5 +1,10 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import type {PropsWithChildren} from 'react';
+import {Recipe, fetchRecipes} from './mealdb-api';
+import 'react-native-gesture-handler';
+import {NavigationContainer} from '@react-navigation/native';
+
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {
   SafeAreaView,
   ScrollView,
@@ -17,6 +22,9 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import RecipesScreen from './screens/RecipesScreen';
+import ChartScreen from './screens/ChartScreen';
+import AppNavigator from './navigation/AppNavigator';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -49,43 +57,53 @@ function Section({children, title}: SectionProps): React.JSX.Element {
 }
 
 function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+  const [recipes, setRecipes] = useState<Recipe[]>([]);
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await fetchRecipes();
+      setRecipes(data);
+    };
+
+    fetchData();
+  }, []);
+  const Stack = createNativeStackNavigator();
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    // <View>
+    //   <Text>Recipe List</Text>
+    //   {recipes.map(recipe => (
+    //     <View key={recipe.idMeal}>
+    //       <Text>
+    //         {recipe.strMeal} - {recipe.strArea}
+    //       </Text>
+    //       <Text>Ingredients:</Text>
+    //       <View>
+    //         {recipe.strIngredients.map((ingredient, index) => (
+    //           <Text key={index}>{ingredient}</Text>
+    //         ))}
+    //       </View>
+    //       <Text>{recipe.strInstructions}</Text>
+    //     </View>
+    //   ))}
+    // </View>
+    // <NavigationContainer>
+    //   <Stack.Navigator initialRouteName="Recipes">
+    //     <Stack.Screen
+    //       name="Recipes"
+    //       component={RecipesScreen}
+    //       options={{title: 'Recipes'}}
+    //     />
+    //     <Stack.Screen
+    //       name="Chart"
+    //       component={ChartScreen}
+    //       options={{title: 'Recipe Chart'}}
+    //     />
+    //   </Stack.Navigator>
+    // </NavigationContainer>
+    <AppNavigator />
+
+    //<RecipesScreen />
   );
 }
 
