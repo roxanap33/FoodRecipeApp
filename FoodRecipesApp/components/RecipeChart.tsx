@@ -1,29 +1,28 @@
-import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import {Recipe, fetchRecipes} from '../mealdb-api';
 import {PieChart} from 'react-native-chart-kit';
+import {Recipe} from '../mealdb-api';
 
 interface TableProp {
   recipes: Recipe[];
 }
-const RecipeChart = ({recipes}: TableProp) => {
+export default function RecipeChart({recipes}: TableProp) {
   const calculateChartData = () => {
     const countryCount: {[key: string]: number} = {};
     const colors = [
-      '#008080',
-      '#FF5733',
-      '#6A5ACD',
-      '#32CD32',
-      '#FFD700',
-      '#800080',
+      '#b198f4',
+      '#c95bf0',
+      '#3c5de3',
+      '#2c2aae',
+      '#36a4db',
+      '#8a018a',
       '#FF6347',
-      '#4682B4',
-      '#008000',
-      '#FFFF00',
+      '#7db8e9',
+      '#3eec3e',
+      '#eeee45',
       '#800000',
       '#00FFFF',
       '#FF00FF',
-      '#00FF00',
+      '#eb98b4',
       '#000080',
     ];
 
@@ -73,17 +72,19 @@ const RecipeChart = ({recipes}: TableProp) => {
 
   return (
     <View>
-      <PieChart
-        data={chartData}
-        width={350}
-        height={350}
-        chartConfig={chartConfig}
-        accessor="count"
-        backgroundColor="transparent"
-        paddingLeft="95"
-        hasLegend={false}
-        absolute
-      />
+      <View>
+        <PieChart
+          data={chartData}
+          width={350}
+          height={350}
+          chartConfig={chartConfig}
+          accessor="count"
+          backgroundColor="transparent"
+          paddingLeft="95"
+          hasLegend={false}
+          absolute
+        />
+      </View>
       <View style={styles.legendContainer}>
         <Text style={styles.legendTitle}>Legend</Text>
         {chartDataWithPercentage.map((item, index) => (
@@ -97,14 +98,12 @@ const RecipeChart = ({recipes}: TableProp) => {
       </View>
     </View>
   );
-};
-
-export default RecipeChart;
+}
 
 const styles = StyleSheet.create({
   legendContainer: {
-    marginTop: 20,
     marginLeft: 20,
+    marginBottom: 150,
   },
   legendTitle: {
     fontSize: 16,
