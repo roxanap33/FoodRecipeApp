@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import {Recipe, fetchRecipes} from '../mealdb-api';
 import {PieChart} from 'react-native-chart-kit';
 
@@ -51,6 +51,14 @@ const RecipeChart = ({recipes}: TableProp) => {
   };
 
   const chartData = calculateChartData();
+  const totalCount = chartData.reduce(
+    (total, country) => total + country.count,
+    0,
+  );
+  const chartDataWithPercentage = chartData.map(chartDataItem => ({
+    ...chartDataItem,
+    percentage: ((chartDataItem.count / totalCount) * 100).toFixed(1) + '%',
+  }));
 
   const chartConfig = {
     backgroundGradientFrom: '#1E2923',
@@ -65,20 +73,55 @@ const RecipeChart = ({recipes}: TableProp) => {
 
   return (
     <View>
-      <Text>Recipe Chart</Text>
       <PieChart
         data={chartData}
         width={350}
-        height={300}
+        height={350}
         chartConfig={chartConfig}
         accessor="count"
         backgroundColor="transparent"
-        paddingLeft="35"
+        paddingLeft="95"
         hasLegend={false}
         absolute
       />
+      <View style={styles.legendContainer}>
+        <Text style={styles.legendTitle}>Legend</Text>
+        {chartDataWithPercentage.map((item, index) => (
+          <View key={index} style={styles.legendItem}>
+            <View style={[styles.color, {backgroundColor: item.color}]} />
+            <Text style={styles.text}>
+              {item.name} {item.percentage}
+            </Text>
+          </View>
+        ))}
+      </View>
     </View>
   );
 };
 
 export default RecipeChart;
+
+const styles = StyleSheet.create({
+  legendContainer: {
+    marginTop: 20,
+    marginLeft: 20,
+  },
+  legendTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginVertical: 10,
+  },
+  legendItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginRight: 20,
+  },
+  color: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+  },
+  text: {
+    marginLeft: 8,
+  },
+});
