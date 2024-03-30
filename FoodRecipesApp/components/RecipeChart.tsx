@@ -1,13 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text} from 'react-native';
 import {Recipe, fetchRecipes} from '../mealdb-api';
-import PieChart from 'react-native-pie-chart';
-
-interface ChartDataItem {
-  count: number;
-  country: string;
-  color?: string;
-}
+import {PieChart} from 'react-native-chart-kit';
 
 interface TableProp {
   recipes: Recipe[];
@@ -44,9 +38,11 @@ const RecipeChart = ({recipes}: TableProp) => {
     });
 
     const chartData = Object.keys(countryCount).map((country, index) => ({
-      country,
+      name: country,
       count: countryCount[country],
-      color: colors[index % colors.length],
+      legendFontColor: '#7F7F7F',
+      legendFontSize: 15,
+      color: colors[index],
     }));
 
     console.log(chartData);
@@ -55,19 +51,31 @@ const RecipeChart = ({recipes}: TableProp) => {
   };
 
   const chartData = calculateChartData();
-  const series = chartData.map(item => item.count);
-  console.log('SERIES', series);
 
-  const sliceColor = chartData.map(item => item.color || '#008080');
+  const chartConfig = {
+    backgroundGradientFrom: '#1E2923',
+    backgroundGradientFromOpacity: 0,
+    backgroundGradientTo: '#08130D',
+    backgroundGradientToOpacity: 0.5,
+    color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
+    strokeWidth: 2,
+    barPercentage: 0.5,
+    useShadowColorFromDataset: false,
+  };
 
   return (
     <View>
       <Text>Recipe Chart</Text>
       <PieChart
-        widthAndHeight={300}
-        series={series}
-        sliceColor={sliceColor}
-        coverRadius={0.45}
+        data={chartData}
+        width={350}
+        height={300}
+        chartConfig={chartConfig}
+        accessor="count"
+        backgroundColor="transparent"
+        paddingLeft="35"
+        hasLegend={false}
+        absolute
       />
     </View>
   );

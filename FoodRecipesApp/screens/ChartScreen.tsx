@@ -6,8 +6,6 @@ import RecipeChart from '../components/RecipeChart';
 export default function ChartScreen({route}: any) {
   const {recipes} = route.params;
 
-  console.log('AICI', recipes.length);
-
   return (
     <View>
       <Text>Recipe Chart Screen</Text>
