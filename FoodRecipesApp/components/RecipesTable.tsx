@@ -14,7 +14,7 @@ export default function RecipesTable({recipes}: TableProp) {
   const [selectedCellTitle, setSelectedCellTitle] = useState<string>('');
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 
-  const itemsPerPage = 10;
+  const itemsPerPage = 8;
   const startIndex = page * itemsPerPage;
 
   const endIndex = Math.min(startIndex + itemsPerPage, recipes.length);
@@ -44,7 +44,7 @@ export default function RecipesTable({recipes}: TableProp) {
               Instructions
             </DataTable.Title>
           </View>
-          <DataTable.Title textStyle={[styles.column, {marginLeft: 10}]}>
+          <DataTable.Title textStyle={[styles.column, {marginLeft: 5}]}>
             Ingredients
           </DataTable.Title>
         </DataTable.Header>
@@ -54,9 +54,11 @@ export default function RecipesTable({recipes}: TableProp) {
             <DataTable.Cell
               onPress={() => handleCellClick(recipe.strMeal, 'Name')}
               style={styles.cell}>
-              <Text style={styles.cellText}>{recipe.strMeal}</Text>
+              <Text>{recipe.strMeal}</Text>
             </DataTable.Cell>
-            <DataTable.Cell style={styles.cell}>
+            <DataTable.Cell
+              onPress={() => handleCellClick(recipe.strArea, 'Area')}
+              style={styles.cell}>
               {recipe.strArea}
             </DataTable.Cell>
             <DataTable.Cell
@@ -110,8 +112,6 @@ const styles = StyleSheet.create({
   },
   table: {
     backgroundColor: '#e6e6fa',
-    marginTop: 20,
-    borderRadius: 10,
   },
   row: {
     borderBottomColor: '#d8bfd8',
