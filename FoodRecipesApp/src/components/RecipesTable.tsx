@@ -1,12 +1,8 @@
 import {useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {DataTable} from 'react-native-paper';
-import {Recipe} from '../mealdb-api';
+import {Recipe, TableProp} from '../utils/types';
 import ModalPopUp from './ModalPopUp';
-
-interface TableProp {
-  recipes: Recipe[];
-}
 
 export default function RecipesTable({recipes}: TableProp) {
   const [page, setPage] = useState<number>(0);

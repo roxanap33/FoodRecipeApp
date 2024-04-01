@@ -1,10 +1,7 @@
 import {View, Text, StyleSheet} from 'react-native';
 import {PieChart} from 'react-native-chart-kit';
-import {Recipe} from '../mealdb-api';
+import {TableProp} from '../utils/types';
 
-interface TableProp {
-  recipes: Recipe[];
-}
 export default function RecipeChart({recipes}: TableProp) {
   const calculateChartData = () => {
     const countryCount: {[key: string]: number} = {};

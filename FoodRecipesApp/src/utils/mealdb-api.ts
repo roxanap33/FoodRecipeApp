@@ -1,11 +1,5 @@
 import axios from 'axios';
-export interface Recipe {
-  idMeal: string;
-  strMeal: string;
-  strArea: string;
-  strInstructions: string;
-  strIngredients: string[];
-}
+import {Recipe} from './types';
 
 export const fetchRecipes = async (): Promise<Recipe[]> => {
   try {

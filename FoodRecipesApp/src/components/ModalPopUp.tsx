@@ -1,12 +1,6 @@
 import React from 'react';
 import {Modal, Text, View, Button, StyleSheet, ScrollView} from 'react-native';
-
-interface ModalProps {
-  visible: boolean;
-  text: string;
-  onClose: () => void;
-  title: string;
-}
+import {ModalProps} from '../utils/types';
 
 export default function ModalPopUp({
   visible,
