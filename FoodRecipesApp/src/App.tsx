@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import type {PropsWithChildren} from 'react';
-import {Recipe, fetchRecipes} from './mealdb-api';
+import {Recipe, fetchRecipes} from './utils/mealdb-api';
 import 'react-native-gesture-handler';
 import {NavigationContainer} from '@react-navigation/native';
 

@@ -6,7 +6,6 @@ export default function ChartScreen({route}: any) {
 
   return (
     <View style={styles.screenContainer}>
-      <Text style={styles.screenTitle}>Recipe Chart Screen</Text>
       <RecipeChart recipes={recipes} />
     </View>
   );

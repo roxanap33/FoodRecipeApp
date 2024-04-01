@@ -1,11 +1,5 @@
 import axios from 'axios';
-export interface Recipe {
-  idMeal: string;
-  strMeal: string;
-  strArea: string;
-  strInstructions: string;
-  strIngredients: string[];
-}
+import {Recipe} from './types';
 
 export const fetchRecipes = async (): Promise<Recipe[]> => {
   try {
@@ -24,11 +18,11 @@ export const fetchRecipes = async (): Promise<Recipe[]> => {
         }
       }
       return {
-        idMeal: meal.idMeal,
-        strMeal: meal.strMeal,
-        strArea: meal.strArea,
-        strInstructions: meal.strInstructions,
-        strIngredients: ingredients,
+        recipeId: meal.idMeal,
+        recipeName: meal.strMeal,
+        recipeCuisine: meal.strArea,
+        recipeInstructions: meal.strInstructions,
+        recipeIngredients: ingredients,
       };
     });
     return recipes;

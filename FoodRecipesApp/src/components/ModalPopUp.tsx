@@ -1,12 +1,6 @@
 import React from 'react';
 import {Modal, Text, View, Button, StyleSheet, ScrollView} from 'react-native';
-
-interface ModalProps {
-  visible: boolean;
-  text: string;
-  onClose: () => void;
-  title: string;
-}
+import {ModalProps} from '../utils/types';
 
 export default function ModalPopUp({
   visible,
@@ -34,7 +28,7 @@ export default function ModalPopUp({
           )}
 
           <View style={styles.button}>
-            <Button title="Close" color="black" onPress={onClose} />
+            <Button title="Close" color="#6a5acd" onPress={onClose} />
           </View>
         </View>
       </View>
@@ -50,9 +44,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(20, 19, 19, 0.54)',
   },
   modalContainer: {
-    backgroundColor: 'white',
+    backgroundColor: '#e6e6fa',
     width: '70%',
-    height: '30%',
+    height: '35%',
     padding: 20,
     borderRadius: 8,
   },
@@ -63,6 +57,7 @@ const styles = StyleSheet.create({
   titleText: {
     fontSize: 16,
     fontWeight: 'bold',
+    color: '#6a5acd',
   },
   scrollView: {
     maxHeight: '60%',

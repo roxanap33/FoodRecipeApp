@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {Button, StyleSheet, View} from 'react-native';
 
-import {Recipe, fetchRecipes} from '../mealdb-api';
+import {fetchRecipes} from '../utils/mealdb-api';
+import {Recipe} from '../utils/types';
 import RecipesTable from '../components/RecipesTable';
 
 export default function RecipesScreen({navigation}: any) {

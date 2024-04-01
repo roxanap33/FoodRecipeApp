@@ -1,12 +1,8 @@
 import {useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {DataTable} from 'react-native-paper';
-import {Recipe} from '../mealdb-api';
+import {Recipe, TableProp} from '../utils/types';
 import ModalPopUp from './ModalPopUp';
-
-interface TableProp {
-  recipes: Recipe[];
-}
 
 export default function RecipesTable({recipes}: TableProp) {
   const [page, setPage] = useState<number>(0);
@@ -34,45 +30,72 @@ export default function RecipesTable({recipes}: TableProp) {
       <DataTable style={styles.table}>
         <DataTable.Header style={[styles.row, {alignItems: 'center'}]}>
           <View style={styles.titleContainer}>
-            <DataTable.Title textStyle={styles.column}>Name</DataTable.Title>
+            <DataTable.Title textStyle={styles.columnHeader}>
+              Name
+            </DataTable.Title>
           </View>
           <View style={styles.titleContainer}>
-            <DataTable.Title textStyle={styles.column}>Area</DataTable.Title>
+            <DataTable.Title textStyle={styles.columnHeader}>
+              Cuisine
+            </DataTable.Title>
           </View>
           <View style={styles.titleContainer}>
-            <DataTable.Title textStyle={styles.column}>
+            <DataTable.Title textStyle={styles.columnHeader}>
               Instructions
             </DataTable.Title>
           </View>
-          <DataTable.Title textStyle={[styles.column, {marginLeft: 5}]}>
+          <DataTable.Title textStyle={[styles.columnHeader, {marginLeft: 5}]}>
             Ingredients
           </DataTable.Title>
         </DataTable.Header>
 
         {paginatedRecipes.map(recipe => (
-          <DataTable.Row key={recipe.idMeal} style={styles.row}>
+          <DataTable.Row key={recipe.recipeId} style={styles.row}>
             <DataTable.Cell
-              onPress={() => handleCellClick(recipe.strMeal, 'Name')}
+              onPress={() => handleCellClick(recipe.recipeName, 'Name')}
               style={styles.cell}>
-              <Text>{recipe.strMeal}</Text>
+              <Text
+                style={styles.cellText}
+                numberOfLines={2}
+                ellipsizeMode="tail">
+                {recipe.recipeName}
+              </Text>
             </DataTable.Cell>
             <DataTable.Cell
-              onPress={() => handleCellClick(recipe.strArea, 'Area')}
+              onPress={() => handleCellClick(recipe.recipeCuisine, 'Cuisine')}
               style={styles.cell}>
-              {recipe.strArea}
+              <Text
+                style={styles.cellText}
+                numberOfLines={2}
+                ellipsizeMode="tail">
+                {recipe.recipeCuisine}
+              </Text>
             </DataTable.Cell>
             <DataTable.Cell
               style={styles.cell}
               onPress={() =>
-                handleCellClick(recipe.strInstructions, 'Instructions')
+                handleCellClick(recipe.recipeInstructions, 'Instructions')
               }>
-              {recipe.strInstructions}
+              <Text
+                style={styles.cellText}
+                numberOfLines={2}
+                ellipsizeMode="tail">
+                {recipe.recipeInstructions}
+              </Text>
             </DataTable.Cell>
             <DataTable.Cell
               onPress={() =>
-                handleCellClick(recipe.strIngredients.join(', '), 'Ingredients')
+                handleCellClick(
+                  recipe.recipeIngredients.join(', '),
+                  'Ingredients',
+                )
               }>
-              {recipe.strIngredients.join(', ')}
+              <Text
+                style={styles.cellText}
+                numberOfLines={2}
+                ellipsizeMode="tail">
+                {recipe.recipeIngredients.join(', ')}
+              </Text>
             </DataTable.Cell>
           </DataTable.Row>
         ))}
@@ -98,7 +121,7 @@ export default function RecipesTable({recipes}: TableProp) {
 }
 
 const styles = StyleSheet.create({
-  column: {
+  columnHeader: {
     textAlign: 'center',
     color: '#6a5acd',
     fontWeight: 'bold',
@@ -120,7 +143,8 @@ const styles = StyleSheet.create({
     borderTopColor: '#d8bfd8',
   },
   cellText: {
-    color: '#483d8b',
+    marginHorizontal: 10,
+    fontSize: 14,
   },
   cell: {
     justifyContent: 'center',
