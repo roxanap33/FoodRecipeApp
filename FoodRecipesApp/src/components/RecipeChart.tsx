@@ -24,7 +24,7 @@ export default function RecipeChart({recipes}: TableProp) {
     ];
 
     recipes.forEach(recipe => {
-      const country = recipe.strArea;
+      const country = recipe.recipeCuisine;
 
       if (countryCount[country]) {
         countryCount[country]++;
@@ -36,12 +36,8 @@ export default function RecipeChart({recipes}: TableProp) {
     const chartData = Object.keys(countryCount).map((country, index) => ({
       name: country,
       count: countryCount[country],
-      legendFontColor: '#7F7F7F',
-      legendFontSize: 15,
       color: colors[index],
     }));
-
-    console.log(chartData);
 
     return chartData;
   };
@@ -53,8 +49,14 @@ export default function RecipeChart({recipes}: TableProp) {
   );
   const chartDataWithPercentage = chartData.map(chartDataItem => ({
     ...chartDataItem,
-    percentage: ((chartDataItem.count / totalCount) * 100).toFixed(1) + '%',
+    percentage: ((chartDataItem.count / totalCount) * 100).toFixed(1),
   }));
+
+  const sortedChartDataByPercentage = chartDataWithPercentage.sort(
+    (item1, item2) => {
+      return parseFloat(item2.percentage) - parseFloat(item1.percentage);
+    },
+  );
 
   const chartConfig = {
     backgroundGradientFrom: '#1E2923',
@@ -73,22 +75,22 @@ export default function RecipeChart({recipes}: TableProp) {
         <PieChart
           data={chartData}
           width={350}
-          height={350}
+          height={300}
           chartConfig={chartConfig}
           accessor="count"
           backgroundColor="transparent"
-          paddingLeft="95"
+          paddingLeft="85"
           hasLegend={false}
           absolute
         />
       </View>
       <View style={styles.legendContainer}>
         <Text style={styles.legendTitle}>Legend</Text>
-        {chartDataWithPercentage.map((item, index) => (
+        {sortedChartDataByPercentage.map((item, index) => (
           <View key={index} style={styles.legendItem}>
             <View style={[styles.color, {backgroundColor: item.color}]} />
             <Text style={styles.text}>
-              {item.name} {item.percentage}
+              {item.name} {item.percentage}%
             </Text>
           </View>
         ))}

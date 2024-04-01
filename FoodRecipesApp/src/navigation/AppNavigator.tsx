@@ -19,7 +19,7 @@ export default function AppNavigator() {
         <Stack.Screen
           name="Chart"
           component={ChartScreen}
-          options={{title: `Recipe's Cuisine Chart`}}
+          options={{title: `Cuisine Chart`}}
           initialParams={{recipes: []}}
         />
       </Stack.Navigator>
