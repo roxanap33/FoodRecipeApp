@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {Button, StyleSheet, Text, View} from 'react-native';
-import RecipesTable from '../components/RecipesTable';
+import {Button, StyleSheet, View} from 'react-native';
+
 import {Recipe, fetchRecipes} from '../mealdb-api';
-import {StackNavigationProp} from '@react-navigation/stack';
+import RecipesTable from '../components/RecipesTable';
 
 export default function RecipesScreen({navigation}: any) {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
@@ -14,16 +14,19 @@ export default function RecipesScreen({navigation}: any) {
 
     fetchRecipeData();
   }, []);
-  console.log('RECIPES');
+
   return (
     <View style={styles.container}>
       <RecipesTable recipes={recipes} />
-      <Button
-        title="Chart"
-        onPress={() => {
-          navigation.navigate('Chart', {recipes: recipes});
-        }}
-      />
+      <View style={styles.button}>
+        <Button
+          color="#6a5acd"
+          title="Go to Chart"
+          onPress={() => {
+            navigation.navigate('Chart', {recipes: recipes});
+          }}
+        />
+      </View>
     </View>
   );
 }
@@ -31,5 +34,12 @@ export default function RecipesScreen({navigation}: any) {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
+    height: '100%',
+  },
+  button: {
+    backgroundColor: '#e6e6fa',
+    marginVertical: 40,
+    marginHorizontal: 100,
+    borderRadius: 10,
   },
 });

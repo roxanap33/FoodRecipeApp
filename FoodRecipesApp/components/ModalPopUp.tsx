@@ -34,7 +34,7 @@ export default function ModalPopUp({
           )}
 
           <View style={styles.button}>
-            <Button title="Close" onPress={onClose} />
+            <Button title="Close" color="black" onPress={onClose} />
           </View>
         </View>
       </View>
