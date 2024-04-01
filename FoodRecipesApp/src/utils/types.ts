@@ -1,9 +1,9 @@
 export interface Recipe {
-  idMeal: string;
-  strMeal: string;
-  strArea: string;
-  strInstructions: string;
-  strIngredients: string[];
+  recipeId: string;
+  recipeName: string;
+  recipeCuisine: string;
+  recipeInstructions: string;
+  recipeIngredients: string[];
 }
 
 export interface TableProp {
